@@ -38,10 +38,12 @@ export class CharacterService {
       .get<any>(`${this.apiUrl}?page=${page}`)
       .pipe(finalize(() => this.store.setLoading(false)))
       .subscribe((response) => {
-        this.store.addCharacters(response.results);
-        response.results.forEach((character: Character) =>
-          this.dbService.addCharacter(character)
-        );
+        if (response.results.length > 0) {
+          this.store.addCharacters(response.results);
+          response.results.forEach((character: Character) =>
+            this.dbService.addCharacter(character)
+          );
+        }
       });
   }
 

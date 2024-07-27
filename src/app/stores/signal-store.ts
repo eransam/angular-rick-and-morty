@@ -26,6 +26,8 @@ export class SignalStore {
 
   // Getter for characters as readonly Signal
   get characters(): Signal<Character[]> {
+    console.log(this._characters());
+
     return this._characters.asReadonly();
   }
 
@@ -42,6 +44,9 @@ export class SignalStore {
   // Set all characters (overwrite existing characters)
   setCharacters(characters: Character[]) {
     this._characters.set(characters);
+    const test = this._characters();
+    console.log(test);
+    debugger;
   }
 
   // Add new characters to the existing list
