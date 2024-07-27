@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { SignalStore } from '../stores/signal-store';
 import { DbService } from './db.service';
-import { finalize } from 'rxjs/operators';
+import { finalize, Observable, of } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 // Define the Character interface
 interface Character {
@@ -32,19 +33,15 @@ export class CharacterService {
     private store: SignalStore
   ) {}
 
-  fetchCharacters(page: number) {
+  fetchCharacters(page: number): Observable<any> {
     this.store.setLoading(true);
-    this.http
-      .get<any>(`${this.apiUrl}?page=${page}`)
-      .pipe(finalize(() => this.store.setLoading(false)))
-      .subscribe((response) => {
-        if (response.results.length > 0) {
-          this.store.addCharacters(response.results);
-          response.results.forEach((character: Character) =>
-            this.dbService.addCharacter(character)
-          );
-        }
-      });
+    return this.http.get<any>(`${this.apiUrl}?page=${page}`).pipe(
+      finalize(() => this.store.setLoading(false)),
+      catchError(error => {
+        console.error('Error fetching characters:', error);
+        return of({ results: [] }); // Provide a fallback empty result
+      })
+    );
   }
 
   async loadCachedCharacters(): Promise<Character[]> {
