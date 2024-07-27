@@ -4,8 +4,24 @@ import { SignalStore } from '../stores/signal-store';
 import { DbService } from './db.service';
 import { finalize } from 'rxjs/operators';
 
+// Define the Character interface
+interface Character {
+  id: number;
+  name: string;
+  status: string;
+  species: string;
+  type: string;
+  gender: string;
+  origin: { name: string; url: string };
+  location: { name: string; url: string };
+  image: string;
+  episode: string[];
+  url: string;
+  created: string;
+}
+
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class CharacterService {
   private apiUrl = 'https://rickandmortyapi.com/api/character';
@@ -18,17 +34,23 @@ export class CharacterService {
 
   fetchCharacters(page: number) {
     this.store.setLoading(true);
-    this.http.get<any>(`${this.apiUrl}?page=${page}`).pipe(
-      finalize(() => this.store.setLoading(false))
-    ).subscribe(response => {
-      this.store.addCharacters(response.results);
-      response.results.forEach((character: any) => this.dbService.addCharacter(character));
-    });
+    this.http
+      .get<any>(`${this.apiUrl}?page=${page}`)
+      .pipe(finalize(() => this.store.setLoading(false)))
+      .subscribe((response) => {
+        this.store.addCharacters(response.results);
+        response.results.forEach((character: Character) =>
+          this.dbService.addCharacter(character)
+        );
+      });
   }
 
-  loadCachedCharacters() {
-    this.dbService.getCharacters().then(characters => {
-      this.store.setCharacters(characters);
-    });
+  async loadCachedCharacters(): Promise<Character[]> {
+    try {
+      return await this.dbService.getCharacters();
+    } catch (error) {
+      console.error('Error loading characters from IndexedDB:', error);
+      return [];
+    }
   }
 }
