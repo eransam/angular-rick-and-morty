@@ -1,0 +1,7 @@
+<div *ngIf="store.loading()">
+    Loading...
+  </div>
+  <div *ngFor="let character of store.characters()">
+    <app-character-card [character]="character"></app-character-card>
+  </div>
+  

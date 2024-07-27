@@ -1,6 +1,18 @@
 import { bootstrapApplication } from '@angular/platform-browser';
-import { appConfig } from './app/app.config';
+import { provideRouter } from '@angular/router';
 import { AppComponent } from './app/app.component';
+import { appRoutes } from './app/app.routes';
+import { provideHttpClient } from '@angular/common/http';
+import { SignalStore } from './app/stores/signal-store';
+import { DbService } from './app/services/db.service';
+import { CharacterService } from './app/services/character.service';
 
-bootstrapApplication(AppComponent, appConfig)
-  .catch((err) => console.error(err));
+bootstrapApplication(AppComponent, {
+  providers: [
+    provideRouter(appRoutes),
+    provideHttpClient(),
+    SignalStore,
+    DbService,
+    CharacterService,
+  ],
+});
