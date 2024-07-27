@@ -1,0 +1,49 @@
+// Define theme variables
+$card-bg-color: #ffffff;
+$card-border-color: #e0e0e0;
+$card-border-radius: 12px;
+$card-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+$card-hover-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+$image-border-radius: 12px;
+$text-color: #333;
+$heading-color: #3498db;
+
+// Card container styles
+.card {
+  background-color: $card-bg-color;
+  border: 1px solid $card-border-color;
+  border-radius: $card-border-radius;
+  box-shadow: $card-shadow;
+  overflow: hidden;
+  width: 100%;
+  max-width: 300px;
+  margin: 20px;
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+  text-align: center;
+
+  &:hover {
+    box-shadow: $card-hover-shadow;
+    transform: translateY(-5px);
+  }
+
+  img {
+    width: 100%;
+    height: auto;
+    border-bottom: 1px solid $card-border-color;
+    border-radius: $image-border-radius;
+  }
+
+  h2 {
+    color: $heading-color;
+    margin: 16px 0;
+    font-size: 1.5rem;
+    font-weight: 600;
+  }
+
+  p {
+    color: $text-color;
+    margin: 8px 0;
+    font-size: 1rem;
+    font-weight: 400;
+  }
+}

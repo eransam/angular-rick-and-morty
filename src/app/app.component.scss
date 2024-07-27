@@ -1,0 +1,58 @@
+// Define theme variables
+$main-bg-color: #f4f4f9;
+$gradient-bg: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+$main-text-color: #333;
+
+// Apply global styles
+body {
+  background: $gradient-bg; // Use gradient background
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  color: $main-text-color;
+}
+
+// Main container for content
+.main-container {
+  padding: 20px;
+  min-height: 100vh; // Ensure it takes full viewport height
+  background: rgba(
+    255,
+    255,
+    255,
+    0.9
+  ); // Slightly transparent white background for the content
+  border-radius: 8px; // Rounded corners for the container
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); // Subtle shadow for better separation
+}
+
+// Header styling
+header {
+  background-color: rgba(
+    52,
+    152,
+    219,
+    0.8
+  ); // Semi-transparent header background
+  color: #fff;
+  padding: 10px 20px;
+  text-align: center;
+  border-radius: 8px 8px 0 0; // Rounded corners for the top
+}
+
+// Footer styling
+footer {
+  background-color: rgba(51, 51, 51, 0.8); // Semi-transparent footer background
+  color: #fff;
+  padding: 10px 20px;
+  text-align: center;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  border-radius: 0 0 8px 8px; // Rounded corners for the bottom
+}
+
+// Router outlet container styling
+router-outlet {
+  display: block;
+}
