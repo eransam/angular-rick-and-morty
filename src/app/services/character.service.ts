@@ -33,19 +33,29 @@ export class CharacterService {
     private store: SignalStore
   ) {}
 
+  // fetch the data from the api by page number:
   fetchCharacters(page: number): Observable<any> {
+    // set _loading to true
     this.store.setLoading(true);
+
     return this.http.get<any>(`${this.apiUrl}?page=${page}`).pipe(
-      finalize(() => this.store.setLoading(false)),
-      catchError(error => {
+      finalize(() =>
+        // set _loading to false
+        this.store.setLoading(false)
+      ),
+      catchError((error) => {
         console.error('Error fetching characters:', error);
         return of({ results: [] }); // Provide a fallback empty result
       })
     );
   }
 
+  // get the charecters from indexdb:
   async loadCachedCharacters(): Promise<Character[]> {
     try {
+      const test = await this.dbService.getCharacters();
+      console.log(test);
+
       return await this.dbService.getCharacters();
     } catch (error) {
       console.error('Error loading characters from IndexedDB:', error);

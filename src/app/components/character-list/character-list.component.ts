@@ -1,3 +1,4 @@
+import { HttpClientModule } from '@angular/common/http';
 import {
   Component,
   OnInit,
@@ -32,7 +33,9 @@ import { FormsModule } from '@angular/forms';
     CdkVirtualScrollViewport,
     ScrollingModule,
     FormsModule, // Import FormsModule here
+    HttpClientModule, // Add HttpClientModule here
   ],
+  providers: [SignalStore, CharacterService, DbService], // Provide necessary services here
 })
 export class CharacterListComponent
   implements OnInit, AfterViewInit, OnDestroy
@@ -52,31 +55,40 @@ export class CharacterListComponent
 
   async ngOnInit() {
     try {
+      debugger;
+      console.log('ngOnInit started');
       const characters = await this.characterService.loadCachedCharacters();
+      console.log('Characters loaded:', characters);
       this.store.setCharacters(characters);
+      console.log('Characters set in store');
       this.fetchCharacters();
+      console.log('fetchCharacters called');
     } catch (error) {
       console.error('Error loading cached characters:', error);
     }
   }
 
   ngAfterViewInit() {
+    debugger;
     this.viewport.scrolledIndexChange
       .pipe(takeUntil(this.destroy$))
       .subscribe(() => this.checkScrollEnd());
   }
 
   checkScrollEnd() {
+    debugger;
     const totalItems = this.store.characters().length;
     const endOfList = this.viewport.getRenderedRange().end >= totalItems;
-
-    if (endOfList && !this.store.loading() && this.page < this.MAX_PAGE) {
-      this.page++;
-      this.fetchCharacters();
+    if (this.viewport.getRenderedRange().end !== 0) {
+      if (endOfList && !this.store.loading() && this.page < this.MAX_PAGE) {
+        this.page++;
+        this.fetchCharacters();
+      }
     }
   }
 
   fetchCharacters() {
+    debugger;
     this.store.setLoading(true);
     this.characterService
       .fetchCharacters(this.page)
