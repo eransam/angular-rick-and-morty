@@ -1,27 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Character List</title>
-</head>
-<body>
-  <!-- Search Input -->
-  <input
-    [(ngModel)]="searchTerm"
-    placeholder="Search characters"
-    type="text"
-  />
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Character List</title>
+  </head>
+  <body>
+    <!-- Search Input -->
+    <input
+      [(ngModel)]="searchTerm"
+      placeholder="Search characters"
+      type="text"
+    />
 
-  <!-- Virtual Scroll Viewport -->
-  <cdk-virtual-scroll-viewport
-    #viewport
-    itemSize="100"
-    class="viewport"
-  >
-    <div *cdkVirtualFor="let character of filteredCharacters()">
-      <app-character-card [character]="character"></app-character-card>
-    </div>
-  </cdk-virtual-scroll-viewport>
-</body>
+    <!-- Virtual Scroll Viewport -->
+    <div *ngIf="store.loader()">Loading...</div>
+
+    <cdk-virtual-scroll-viewport #viewport itemSize="100" class="viewport">
+      <div *cdkVirtualFor="let character of filteredCharacters()">
+        <app-character-card [character]="character"></app-character-card>
+      </div>
+    </cdk-virtual-scroll-viewport>
+    <div *ngIf="store.loader()">Loading...</div>
+  </body>
 </html>

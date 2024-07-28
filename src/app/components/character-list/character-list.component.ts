@@ -90,6 +90,8 @@ export class CharacterListComponent
   fetchCharacters() {
     debugger;
     this.store.setLoading(true);
+    this.store.set_loader_delay(true);
+
     this.characterService
       .fetchCharacters(this.page)
       .pipe(

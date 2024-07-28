@@ -23,10 +23,15 @@ export class SignalStore {
   private _characters = signal<Character[]>([]);
   private _loading = signal<boolean>(false);
   private _page = signal<number>(1);
+  private _loader = signal<boolean>(false);
 
   get characters(): Signal<Character[]> {
     console.log(this._characters());
     return this._characters.asReadonly();
+  }
+
+  get loader(): Signal<boolean> {
+    return this._loader.asReadonly();
   }
 
   get loading(): Signal<boolean> {
@@ -48,7 +53,21 @@ export class SignalStore {
     this._loading.set(loading);
   }
 
+  set_loader_delay(loading: boolean) {
+    this._loader.set(loading);
+    setTimeout(() => {
+      this._loader.set(false);
+    }, 2000);
+  }
+
   setPage(page: number) {
     this._page.set(page);
+  }
+
+  setLoadingWithDelay(loading: boolean, delay: number) {
+    this._loader.set(loading);
+    setTimeout(() => {
+      this._loader.set(false);
+    }, delay);
   }
 }
